@@ -16,7 +16,7 @@ services:
       dockerfile: Dockerfile
     command: bundle exec rails s -p 5000 -b 0.0.0.0
     volumes:
-      - ./backend
+      - ./backend:/app
     ports:
       - "5000:5000"
     depends_on:
@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
     command: bash -c "npm run dev"
     volumes:
-    - ./frontend
+    - ./frontend:/app
     ports:
       - "5001:5001"
     depends_on:

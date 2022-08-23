@@ -6,9 +6,15 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json /app/package.json
 
-RUN npm install 
+RUN npm install
 
-COPY . .
+COPY . /app
+
+COPY entrypoint.sh /usr/bin/
+
+RUN chmod +x /usr/bin/entrypoint.sh
+
+ENTRYPOINT ["entrypoint.sh"]
 
 EXPOSE 5001
 
