@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  backend:
+    stdin_open: true
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    command: bundle exec rails s -p 5000 -b 0.0.0.0
+    volumes:
+      - ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  frontend:
+    stdin_open: true
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: bash -c "npm run dev"
+    volumes:
+    - ./frontend
+    ports:
+      - "5001:5001"
+    depends_on:
+      - backend
